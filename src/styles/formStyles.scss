@@ -1,3 +1,40 @@
+// Styles HomePage
+body{
+    background: #f1edee;
+}
+
+.home{
+    display: flex;
+    justify-content: center;
+
+    .container-home{
+        width: 70%;
+        height: 315px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-direction: column;
+        border: 2px solid black;
+        box-shadow: -2px 2px 16px 4px black;
+        background-color: #D8DBE2;
+
+        .btns-home{
+
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            button{
+                padding: 5px 60px 5px 60px;
+                margin: 2%;
+            }
+        }
+    }
+
+}
+
+
 
 // Styles form
 .form{
@@ -33,6 +70,7 @@
         align-items: center;
         justify-content: center;
         margin: 2%;
+        width: 100%;
 
         .form-buttons{
             width: 100%;
@@ -54,8 +92,17 @@
     align-items: center;
     justify-content: center;
 
-    .wrapper{
+    .container-table-users{
         width: 80%;
+        margin: 2%;
+        border: 3px solid black;
+
+    }
+    .container-btns-list{
+
+        button{
+            margin: 1%;
+        }
     }
 
     .btn-back{
