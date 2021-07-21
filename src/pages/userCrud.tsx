@@ -1,7 +1,8 @@
 // Imports components
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import Link from 'next/Link'
-import ListUser from '../components/ListUser'
+import axios from 'axios'
+
 
 // Imports Material UI
 import FormControl from '@material-ui/core/FormControl';
@@ -12,11 +13,85 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Button  from '@material-ui/core/Button';
 
+// Import tabble materialUi
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 // ---------------------------------//
 
 
 export default function UserCrud() {
+
+  interface User {
+    email: string;
+    first_name: string;
+    last_name: string;
+    map: any;
+  }
+
+  const baseUrl = "https://demo.vnda.com.br/api/v2/users"
+  const baseUrl2 = "https://reqres.in/api/users?page=2"
+
+  useEffect(() => {
+      axios.get(baseUrl2).then(resp => {
+        // console.log(resp.data.data)
+        const response:any = resp.data.data
+        setUserList( response )
+    })
+  },[]);
+
+  const [userList, setUserList] = useState<Partial<User>>([]);
+
+  const [dataUserForm, setDataUserForm] = useState<any>(
+        {
+            id: '',
+            email: '',
+            first_name: '' ,
+            last_name: '',
+            funcao: '',
+            tags: '',
+  
+        }
+     )
+
+
+
+  // console.log(dataUserForm)
+
+  function saveUser() {
+
+    const user = dataUserForm
+    const method = user.id ? 'put' : 'post'
+    const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
+    axios[method](url, user)
+        .then(resp => {
+            const list = this.getUpdateList(resp.data)
+            this.setState({ user: initialState.user, list })
+
+        })
+
+  }
+
+  function teste<Any>() {
+
+    console.log(dataUserForm)
+
+
+  }
+
+  function getDadosForm(event:any) {
+    const { name, value } = event.target
+    setDataUserForm({
+        ...dataUserForm,
+        [name]: value
+    })
+  }
+
 
   return (
 
@@ -33,19 +108,51 @@ export default function UserCrud() {
             <Grid container spacing={6}>
 
                 <Grid item md={6} sm={12}>
-                  <TextField id="standard-basic" label="Standard" />
+                  <TextField 
+                
+                    id="standard-basic" 
+                    label="Standard"
+                    name="first_name"
+                    value={dataUserForm.first_name || ''}
+                    onChange={getDadosForm}
+
+                  />
                 </Grid>
 
                 <Grid item md={6} sm={12}>
-                  <TextField  id="standard-basic" label="Standard" />
+                  <TextField 
+
+                   id="standard-basic"
+                   label="Standard" 
+                   name="email"
+                   value={dataUserForm.email || ''}
+                   onChange={getDadosForm}
+
+                  />
                 </Grid>
 
                 <Grid item md={6} sm={12}>
-                  <TextField id="standard-basic" label="Standard" />
+                  <TextField 
+
+                    id="standard-basic" 
+                    label="Standard"
+                    name="codigo_externo"
+                    value={dataUserForm.codigo_externo || ''}
+                    onChange={getDadosForm}
+ 
+                   />
                 </Grid>
 
                 <Grid item md={6} sm={12}>
-                  <TextField id="standard-basic" label="Standard" />
+                  <TextField 
+                  
+                    id="standard-basic" 
+                    label="Standard" 
+                    name="tags"
+                    value={dataUserForm.tags || ''}
+                    onChange={getDadosForm} 
+                  
+                  />
                 </Grid>
 
                 <Grid item md={3} sm={12}>
@@ -57,8 +164,9 @@ export default function UserCrud() {
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      // value={age}
-                      // onChange={handleChange}
+                      onChange={getDadosForm}
+                      name="funcao"
+                      defaultValue={dataUserForm.funcao || 10}
                     >
                       <MenuItem value={10}>Ten</MenuItem>
                       <MenuItem value={20}>Twenty</MenuItem>
@@ -79,13 +187,16 @@ export default function UserCrud() {
 
           <div className="form-buttons">
 
-            <Link href="/listUser">
 
-              <Button className="btn-form" variant="contained" color="primary">
-                Salvar
-              </Button>
+            <Button 
+              className="btn-form" 
+              variant="contained" 
+              color="primary"
+              onClick={teste}
+            >
+              Salvar
+            </Button>
 
-            </Link>
 
             <Link href="/">
 
@@ -99,9 +210,53 @@ export default function UserCrud() {
           </div>
 
         </div>
-        
+
         <h2>Lista de usuarios</h2>
-        <ListUser/>
+        <div className="table-users">
+
+          <div className="container-table-users">
+
+            <TableContainer component={Paper}>
+              <Table  size="small" aria-label="a dense table">
+
+                <TableHead>
+
+                  <TableRow>
+                    <TableCell align="center">Nome</TableCell>
+                    <TableCell align="center">Email</TableCell>
+                    <TableCell align="center">Código externo</TableCell>
+                    <TableCell align="center">Função</TableCell>
+                    <TableCell align="center">Tags </TableCell>
+                  </TableRow>
+
+                </TableHead>
+
+                <TableBody>
+
+                  {userList.map((user:any) => (
+                      
+                    <TableRow key={user.first_name}>
+
+                      <TableCell align="center" component="th" scope="user">
+                        {user.email}
+                      </TableCell>
+                      <TableCell align="center">{user.email}</TableCell>
+                      <TableCell align="center">{user.first_name}</TableCell>
+                      <TableCell align="center">{user.last_name}</TableCell>
+                      <TableCell align="center">{user.email}</TableCell>
+
+                    </TableRow>
+                  ))}
+
+                </TableBody>
+
+              </Table>
+
+            </TableContainer>
+
+          </div>
+
+        </div>
 
       </div>
 

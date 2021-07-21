@@ -29,15 +29,24 @@ const TableList: React.FC = ()  =>{
   }
 
   const [users, setUserList] = useState<Partial<User>>([]);
+  const baseUrl = "https://demo.vnda.com.br/api/v2/users"
+  const baseUrl2 = "https://reqres.in/api/users?page=2"
 
     useEffect(() => {
-      axios("https://reqres.in/api/users?page=2").then(resp => {
+      axios.get(baseUrl2).then(resp => {
         // console.log(resp.data.data)
         const response:any = resp.data.data
         setUserList( response )
     })
   },[]);
 
+
+  // function saveUser () {
+  //   const user = this.state.user
+  //   const method = user.id ? 'put' : 'post'
+  //   const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
+
+  // }
 
   return (
 
