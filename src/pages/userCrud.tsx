@@ -24,19 +24,36 @@ import Paper from '@material-ui/core/Paper';
 
 // ---------------------------------//
 
+// Estado inicial para limpar o form ao salvar dados
+const initialState = {
+
+  user: { 
+    id: '',
+    email: '',
+    first_name: '' ,
+    last_name: '',
+    funcao: '',
+    tags: '',
+  },
+
+}
 
 export default function UserCrud() {
 
+  // Tipagem dos dados da api
   interface User {
     email: string;
     first_name: string;
     last_name: string;
     map: any;
+    filter: any;
   }
 
   const baseUrl = "https://demo.vnda.com.br/api/v2/users"
   const baseUrl2 = "https://reqres.in/api/users?page=2"
 
+
+  // Ao montar pagina, fazer a request dos dados da api
   useEffect(() => {
       axios.get(baseUrl2).then(resp => {
         // console.log(resp.data.data)
@@ -45,8 +62,10 @@ export default function UserCrud() {
     })
   },[]);
 
+  // State dos dados da lista
   const [userList, setUserList] = useState<Partial<User>>([]);
 
+  // State dos dados do form
   const [dataUserForm, setDataUserForm] = useState<any>(
         {
             id: '',
@@ -59,30 +78,7 @@ export default function UserCrud() {
         }
      )
 
-
-
-  // console.log(dataUserForm)
-
-  function saveUser() {
-
-    const user = dataUserForm
-    const method = user.id ? 'put' : 'post'
-    const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
-    axios[method](url, user)
-        .then(resp => {
-            const list = this.getUpdateList(resp.data)
-            this.setState({ user: initialState.user, list })
-
-        })
-
-  }
-
-  function teste<Any>() {
-
-    console.log(dataUserForm)
-
-
-  }
+  // get dos dados do formulario
 
   function getDadosForm(event:any) {
     const { name, value } = event.target
@@ -92,6 +88,51 @@ export default function UserCrud() {
     })
   }
 
+
+  // Funcao para Salvar usuario
+
+  function saveUser() {
+
+    const user = dataUserForm
+    const method = user.id ? 'put' : 'post'
+    const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
+    axios[method](url, user)
+        .then(resp => {
+            const list:any = getUpdateList(resp.data)
+            setDataUserForm({ ...initialState.user})
+            setUserList(list)
+        })
+
+  }
+
+
+  // Funcao para atualizar a lista de usuarios, e remover o que nao tem Id
+
+  function  getUpdateList(user:any, add = true) {
+
+    const list = userList.filter(u => u.id !== user.id)
+
+    if (add) list.unshift(user)
+
+    return list
+
+  }
+
+  // Funcao para remover usuario
+
+  function removeUser(user:any) {
+    axios.delete(`${baseUrl}/${user.id}`).then(resp => {
+        const list = getUpdateList(user, false)
+        setUserList(list)
+    })
+  }
+
+  // Funcao para editar usuario, recebe o parametro da lista, trazendo os dados, e manda do State de dados do form.
+
+  function editUser(user:any) {
+    setDataUserForm(user)
+
+  }
 
   return (
 
@@ -108,50 +149,42 @@ export default function UserCrud() {
             <Grid container spacing={6}>
 
                 <Grid item md={6} sm={12}>
-                  <TextField 
-                
-                    id="standard-basic" 
+                  <TextField                
+                    id="first_name" 
                     label="Standard"
                     name="first_name"
                     value={dataUserForm.first_name || ''}
                     onChange={getDadosForm}
-
-                  />
+                  />               
                 </Grid>
 
                 <Grid item md={6} sm={12}>
                   <TextField 
-
-                   id="standard-basic"
+                   id="last_name"
                    label="Standard" 
                    name="email"
-                   value={dataUserForm.email || ''}
+                   value={dataUserForm.last_name || ''}
                    onChange={getDadosForm}
-
                   />
                 </Grid>
 
                 <Grid item md={6} sm={12}>
                   <TextField 
-
-                    id="standard-basic" 
+                    id="email" 
                     label="Standard"
                     name="codigo_externo"
-                    value={dataUserForm.codigo_externo || ''}
+                    value={dataUserForm.email || ''}
                     onChange={getDadosForm}
- 
                    />
                 </Grid>
 
                 <Grid item md={6} sm={12}>
-                  <TextField 
-                  
-                    id="standard-basic" 
+                  <TextField                  
+                    id="avatar" 
                     label="Standard" 
-                    name="tags"
-                    value={dataUserForm.tags || ''}
-                    onChange={getDadosForm} 
-                  
+                    name="l"
+                    value={dataUserForm.avatar || ''}
+                    onChange={getDadosForm}                   
                   />
                 </Grid>
 
@@ -187,16 +220,15 @@ export default function UserCrud() {
 
           <div className="form-buttons">
 
-
             <Button 
-              className="btn-form" 
+              className="btn-save" 
               variant="contained" 
               color="primary"
-              onClick={teste}
+              onClick={() => saveUser()}
+
             >
               Salvar
             </Button>
-
 
             <Link href="/">
 
@@ -206,12 +238,14 @@ export default function UserCrud() {
 
             </Link>
 
-
           </div>
 
         </div>
 
+        {/* LISTA DE USUARIOS */}
+
         <h2>Lista de usuarios</h2>
+
         <div className="table-users">
 
           <div className="container-table-users">
@@ -235,15 +269,43 @@ export default function UserCrud() {
 
                   {userList.map((user:any) => (
                       
-                    <TableRow key={user.first_name}>
+                    <TableRow key={user.id}>
 
                       <TableCell align="center" component="th" scope="user">
-                        {user.email}
+                        {user.avatar}
                       </TableCell>
                       <TableCell align="center">{user.email}</TableCell>
                       <TableCell align="center">{user.first_name}</TableCell>
                       <TableCell align="center">{user.last_name}</TableCell>
                       <TableCell align="center">{user.email}</TableCell>
+
+                      <TableCell align="center">
+
+                        <Button 
+                          className="btn-edit" 
+                          variant="contained" 
+                          color="primary" 
+                          onClick={() => editUser(user)}
+                          >
+
+                          Editar
+                        </Button>
+
+                      </TableCell>
+
+                      <TableCell align="center">
+
+                        <Button 
+                          className="btn-delete" 
+                          variant="contained" 
+                          color="primary" 
+                          onClick={() => removeUser(user)}
+                          >
+
+                          Excluir
+                        </Button>
+
+                      </TableCell>
 
                     </TableRow>
                   ))}

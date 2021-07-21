@@ -78,8 +78,13 @@ body{
             align-items: center; 
             justify-content: center;
         }
-        .btn-form{
+        .btn-save{
+            background-color: #8bc34a;
+        }
+
+        button{
             margin: 2%;
+
         }
     }
 }
@@ -105,8 +110,9 @@ body{
         }
     }
 
-    .btn-back{
-        margin-bottom: 2%;
+    .btn-delete{
+        background-color: #d32f2f
+        ;
     }
 
 }
