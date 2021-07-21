@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/Link'
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -22,21 +23,21 @@ export default function UserCrud() {
 
           <div className="form-itens">
 
-            <Grid container spacing={5}>
+            <Grid container spacing={6}>
 
-                <Grid item xs={6}>
+                <Grid item md={6} sm={12}>
                   <TextField id="standard-basic" label="Standard" />
                 </Grid>
-                <Grid item xs={6} >
+                <Grid item md={6} sm={12}>
                   <TextField  id="standard-basic" label="Standard" />
                 </Grid>
-                <Grid item xs={6} >
+                <Grid item md={6} sm={12}>
                   <TextField id="standard-basic" label="Standard" />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item md={6} sm={12}>
                   <TextField id="standard-basic" label="Standard" />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item md={3} sm={12}>
                   
                   <FormControl>
                     <InputLabel id="demo-simple-select-label">Age</InputLabel>
@@ -64,9 +65,13 @@ export default function UserCrud() {
 
           <div className="form-buttons">
 
-            <Button className="btn-form" variant="contained" color="primary">
-              Primary
-            </Button>
+            <Link href="/listUser">
+
+              <Button className="btn-form" variant="contained" color="primary">
+                Primary
+              </Button>
+
+            </Link>
             <Button className="btn-form" variant="contained" color="primary">
               Primary
             </Button>

@@ -1,3 +1,5 @@
+
+// Styles form
 .form{
     display: flex;
     flex-direction: column;
@@ -26,8 +28,6 @@
     
         }
     }
-
-
     .container-buttons{
         display: flex;
         align-items: center;
@@ -44,4 +44,22 @@
             margin: 2%;
         }
     }
+}
+
+// Styles table
+
+.table-users{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .wrapper{
+        width: 80%;
+    }
+
+    .btn-back{
+        margin-bottom: 2%;
+    }
+
 }
