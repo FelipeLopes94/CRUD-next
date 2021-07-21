@@ -1,5 +1,6 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import Link from 'next/Link'
+import axios from 'axios'
 
 // Import btn material Ui
 import Button  from '@material-ui/core/Button';
@@ -13,6 +14,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { string } from 'prop-types';
 
 // -------------------//
 
@@ -35,7 +37,28 @@ const rows = [
 ];
 
 const TableList: React.FC = ()  =>{
-  const classes = useStyles();
+
+  interface User {
+    email: string;
+    first_name: string;
+    last_name: string;
+    map: any;
+  }
+
+  const [users, setUserList] = useState<Partial<User>>([]);
+
+    useEffect(() => {
+      axios("https://reqres.in/api/users?page=2").then(resp => {
+        // console.log(resp.data.data)
+        const response:any = resp.data.data
+        setUserList( response )
+    })
+  },[]);
+
+  // let teste: any = users
+
+  console.log(users)
+
 
   return (
 
@@ -46,33 +69,33 @@ const TableList: React.FC = ()  =>{
         <div className="container-table-users">
 
           <TableContainer component={Paper}>
-            <Table className={classes.table} size="small" aria-label="a dense table">
+            <Table  size="small" aria-label="a dense table">
 
               <TableHead>
 
                 <TableRow>
-                  <TableCell>Dessert (100g serving)</TableCell>
-                  <TableCell align="right">Calories</TableCell>
-                  <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                  <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                  <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                  <TableCell align="center">Nome</TableCell>
+                  <TableCell align="center">Email</TableCell>
+                  <TableCell align="center">Código externo</TableCell>
+                  <TableCell align="center">Função</TableCell>
+                  <TableCell align="center">Tags </TableCell>
                 </TableRow>
 
               </TableHead>
 
               <TableBody>
 
-                {rows.map((row) => (
+                {users.map((user:any) => (
                     
-                  <TableRow key={row.name}>
+                  <TableRow key={user.first_name}>
 
-                    <TableCell component="th" scope="row">
-                      {row.name}
+                    <TableCell align="center" component="th" scope="user">
+                      {user.email}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+                    <TableCell align="center">{user.email}</TableCell>
+                    <TableCell align="center">{user.first_name}</TableCell>
+                    <TableCell align="center">{user.last_name}</TableCell>
+                    <TableCell align="center">{user.email}</TableCell>
 
                   </TableRow>
                 ))}

@@ -99,6 +99,7 @@ export default function UserCrud() {
           </div>
 
         </div>
+        
         <h2>Lista de usuarios</h2>
         <ListUser/>
 
