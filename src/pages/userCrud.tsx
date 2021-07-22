@@ -59,6 +59,7 @@ export default function UserCrud() {
         // console.log(resp.data.data)
         const response:any = resp.data.data
         setUserList( response )
+
     })
   },[]);
 
@@ -105,7 +106,6 @@ export default function UserCrud() {
 
   }
 
-
   // Funcao para atualizar a lista de usuarios, e remover o que nao tem Id
 
   function  getUpdateList(user:any, add = true) {
@@ -151,7 +151,7 @@ export default function UserCrud() {
                 <Grid item md={6} sm={12}>
                   <TextField                
                     id="first_name" 
-                    label="Standard"
+                    label="Nome"
                     name="first_name"
                     value={dataUserForm.first_name || ''}
                     onChange={getDadosForm}
@@ -161,7 +161,7 @@ export default function UserCrud() {
                 <Grid item md={6} sm={12}>
                   <TextField 
                    id="last_name"
-                   label="Standard" 
+                   label="Email" 
                    name="email"
                    value={dataUserForm.last_name || ''}
                    onChange={getDadosForm}
@@ -171,7 +171,7 @@ export default function UserCrud() {
                 <Grid item md={6} sm={12}>
                   <TextField 
                     id="email" 
-                    label="Standard"
+                    label="Código externo"
                     name="codigo_externo"
                     value={dataUserForm.email || ''}
                     onChange={getDadosForm}
@@ -181,7 +181,7 @@ export default function UserCrud() {
                 <Grid item md={6} sm={12}>
                   <TextField                  
                     id="avatar" 
-                    label="Standard" 
+                    label="Tags" 
                     name="l"
                     value={dataUserForm.avatar || ''}
                     onChange={getDadosForm}                   
@@ -192,11 +192,11 @@ export default function UserCrud() {
                   
                   <FormControl>
 
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <InputLabel id="demo-simple-select-label">Função</InputLabel>
 
                     <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
+                      labelId="select funcao usuario"
+                      id="select funcao"
                       onChange={getDadosForm}
                       name="funcao"
                       defaultValue={dataUserForm.funcao || 10}
@@ -259,8 +259,6 @@ export default function UserCrud() {
                     <TableCell align="center">Nome</TableCell>
                     <TableCell align="center">Email</TableCell>
                     <TableCell align="center">Código externo</TableCell>
-                    <TableCell align="center">Função</TableCell>
-                    <TableCell align="center">Tags </TableCell>
                   </TableRow>
 
                 </TableHead>
@@ -276,8 +274,6 @@ export default function UserCrud() {
                       </TableCell>
                       <TableCell align="center">{user.email}</TableCell>
                       <TableCell align="center">{user.first_name}</TableCell>
-                      <TableCell align="center">{user.last_name}</TableCell>
-                      <TableCell align="center">{user.email}</TableCell>
 
                       <TableCell align="center">
 
