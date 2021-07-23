@@ -51,11 +51,11 @@ body{
         width: 70%;
 
         .container-form{
-            width: 80%;
+            width: 70%;
             .form-itens{
                 // margin: 8%;
                 .MuiFormControl-root{
-                    width: 80%;
+                    width: 100%;
                     margin: 1%;
                 }
     
@@ -95,6 +95,11 @@ body{
     align-items: center;
     justify-content: center;
 
+    .title-column-table{
+        font-size: 16px;
+        font-weight: bold;
+    }
+    
     .container-table-users{
         width: 80%;
         margin: 2%;

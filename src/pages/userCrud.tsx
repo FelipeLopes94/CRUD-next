@@ -32,7 +32,7 @@ const initialState = {
     name: '' ,
     external_code: '',
     funcao: '',
-    tags: '',
+    tags: [],
   },
 
 }
@@ -59,7 +59,6 @@ export default function UserCrud() {
       }).then(resp => {
         // console.log(resp.data.data)
         const response:any = resp.data.data
-        console.log(response)
         setUserList( response )
 
     })
@@ -77,7 +76,7 @@ export default function UserCrud() {
             name: '' ,
             external_code: '',
             function: '',
-            tags: '',
+            tags: [],
   
         }
      )
@@ -86,12 +85,25 @@ export default function UserCrud() {
 
   function getDadosForm(event:any) {
     const { name, value } = event.target
+
     setDataUserForm({
         ...dataUserForm,
-        [name]: value
+        [name]: value,
     })
   }
 
+  // funcao para fazer split, e separar as tags por virgula
+
+  function splitUserTags(event:any){
+    
+    const userTags = event.target.value
+    const tagSplits = userTags.split(' ,', 5);
+
+    setDataUserForm({
+      ...dataUserForm,
+      tags: tagSplits
+    })
+  }
   // Funcao para Salvar usuario
 
   function saveUser() {
@@ -99,20 +111,22 @@ export default function UserCrud() {
     const user = dataUserForm //Dados do usuario obtidos do state
     const method = user.id ? 'patch' : 'post' //caso tenha ID, entao usa o metodo patch para atualizar, senao, criar um novo user
     const url = apiCreateOrUpdate //receb a url da api CreateOrUpdate
-    
-    axios[method](url, user,{
 
-      data:{userId: user.id},
-      headers: {"Content-Type": "multipart/form-data"}
-      
-    })
-      .then(resp => {
-        setDataUserForm({ ...initialState.user}) //limpa os campos ao salvar
-        alert("usuario salvo com sucesso")
-        window.location.reload();
-        console.log (resp)
+    if(user != {}){
+      axios[method](url, user,{
+
+        data:{userId: user.id},
+        headers: {"Content-Type": "multipart/form-data"}
         
       })
+        .then(resp => {
+          setDataUserForm({ ...initialState.user}) //limpa os campos ao salvar
+          alert("usuario salvo com sucesso")
+          window.location.reload();
+          console.log (resp)
+          
+        })
+    }
 
   }
 
@@ -164,7 +178,7 @@ export default function UserCrud() {
 
       <div className="wrapper">
 
-        <h2>Adicionar novo usuario</h2>
+        <h2>Adicionar ou editar novo usuário </h2>
 
       {/* Formulario CRUD */}
 
@@ -175,17 +189,20 @@ export default function UserCrud() {
             <Grid container spacing={6}>
 
                 <Grid item md={6} sm={12}>
-                  <TextField                
+                  <TextField    
+                    required            
                     id="name" 
                     label="Nome"
                     name="name"
                     value={dataUserForm.name || ''}
                     onChange={getDadosForm}
+                    
                   />               
                 </Grid>
 
                 <Grid item md={6} sm={12}>
                   <TextField 
+                    required
                    id="email"
                    label="Email" 
                    name="email"
@@ -196,7 +213,8 @@ export default function UserCrud() {
 
                 <Grid item md={6} sm={12}>
                   <TextField 
-                    id="email" 
+                    required
+                    id="external_code" 
                     label="Código externo"
                     name="external_code"
                     value={dataUserForm.external_code || ''}
@@ -205,12 +223,13 @@ export default function UserCrud() {
                 </Grid>
 
                 <Grid item md={6} sm={12}>
-                  <TextField                  
+                  <TextField   
+                    required               
                     id="avatar" 
                     label="Tags" 
                     name="tags"
                     value={dataUserForm.tags || ''}
-                    onChange={getDadosForm}                   
+                    onChange={splitUserTags}      
                   />
                 </Grid>
 
@@ -225,7 +244,7 @@ export default function UserCrud() {
                       id="select funcao"
                       onChange={getDadosForm}
                       name="function"
-                      defaultValue={dataUserForm.function || 10}
+                      defaultValue={dataUserForm.function || ""}
                     >
                       <MenuItem value={"Gestor"}>Gestor</MenuItem>
                       <MenuItem value={"Agente"}>Agente</MenuItem>
@@ -254,7 +273,7 @@ export default function UserCrud() {
               variant="contained" 
               color="primary"
               onClick={() => saveUser()}
-
+              type="submit"
             >
               Salvar
             </Button>
@@ -273,7 +292,7 @@ export default function UserCrud() {
 
         {/* LISTA DE USUARIOS */}
 
-        <h2>Lista de usuarios</h2>
+        <h2>Lista de usuários </h2>
 
         <div className="table-users">
 
@@ -285,9 +304,9 @@ export default function UserCrud() {
                 <TableHead>
 
                   <TableRow>
-                    <TableCell align="center">Nome</TableCell>
-                    <TableCell align="center">Email</TableCell>
-                    <TableCell align="center">Código externo</TableCell>
+                    <TableCell align="center" className="title-column-table">Nome</TableCell>
+                    <TableCell align="center" className="title-column-table">Email</TableCell>
+                    <TableCell align="center" className="title-column-table">Código externo</TableCell>
                   </TableRow>
 
                 </TableHead>
