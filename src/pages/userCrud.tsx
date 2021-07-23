@@ -52,7 +52,7 @@ export default function UserCrud() {
 
   const apiListusers = "/api/userApi"
   const apiDelteUser = "/api/deleteUser"
-  const apiSaveUser = "/api/saveUser"
+  const apiCreateOrUpdate = "/api/createOrUpdate"
 
 
   // Ao montar pagina, fazer a request dos dados da api
@@ -99,10 +99,9 @@ export default function UserCrud() {
 
   function saveUser() {
 
-    const user = dataUserForm
-    
-    const method = user.id ? 'patch' : 'post'
-    const url = apiSaveUser
+    const user = dataUserForm //Dados do usuario obtidos do state
+    const method = user.id ? 'patch' : 'post' //caso tenha ID, entao usa o metodo patch para atualizar, senao, criar um novo user
+    const url = apiCreateOrUpdate //receb a url da api CreateOrUpdate
     
     axios[method](url, user,{
 
@@ -111,11 +110,10 @@ export default function UserCrud() {
       
     })
         .then(resp => {
-            const list:any = getUpdateList(resp.data)
+            const list:any = getUpdateList(userList)
             setDataUserForm({ ...initialState.user})
             setUserList(list)
         })
-    console.log(user.id)
 
   }
 

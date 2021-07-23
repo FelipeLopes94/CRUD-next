@@ -1,8 +1,6 @@
-async function saveUser (request:any, response:any) {
+async function createOrUpdate (request:any, response:any) {
     
     if (request.method === 'POST') {
-
-        console.log(request.body)
 
         const baseUrl = `https://demo.vnda.com.br/api/v2/users`
         const token ="zPx1jgkmbUb9vouJvSH8XRAF"
@@ -24,14 +22,11 @@ async function saveUser (request:any, response:any) {
         response.json({
             message:"Usuario criado com sucesso!"
         })
-    
 
-      } else  {
+      } else  { //Caso seja Patch, entao atualiza o usuario
 
         const objRequest = JSON.parse(request.body);
         const userId = objRequest.id
-
-        console.log(objRequest.id)
 
         const baseUrl = `https://demo.vnda.com.br/api/v2/users/${userId}`
         const token ="zPx1jgkmbUb9vouJvSH8XRAF"
@@ -59,5 +54,5 @@ async function saveUser (request:any, response:any) {
 
 }
 
-export default saveUser
+export default createOrUpdate
 
