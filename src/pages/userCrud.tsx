@@ -162,7 +162,7 @@ export default function UserCrud() {
     const list = getUpdateList(user, false)
     setUserList(list)
     alert("usuario removido com sucesso")
-    window.location.reload();
+    // window.location.reload();
 
 
 

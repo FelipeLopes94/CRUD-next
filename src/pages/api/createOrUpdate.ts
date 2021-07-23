@@ -1,13 +1,16 @@
 async function createOrUpdate (request:any, response:any) {
-    
+
+    const token ="XXXXXXX"  //<------ Token necessario para realizar as operacoes na API de usuarios
+
+    //Configuracoes gerais do header
+
+    const myHeaders = new Headers() 
+    myHeaders.append("Authorization", "Bearer " + `${token}`);
+    myHeaders.append("Content-Type", "application/json; charset=utf-8");
+
     if (request.method === 'POST') {
 
         const baseUrl = `https://demo.vnda.com.br/api/v2/users`
-        const token ="zPx1jgkmbUb9vouJvSH8XRAF"
-        const myHeaders = new Headers()
-    
-        myHeaders.append("Authorization", "Bearer " + `${token}`);
-        myHeaders.append("Content-Type", "application/json; charset=utf-8");
     
         const configRequest:any = {
             headers: myHeaders,
@@ -25,15 +28,12 @@ async function createOrUpdate (request:any, response:any) {
 
       } else  { //Caso seja Patch, entao atualiza o usuario
 
+        //parse da request para atualizacao do usuario
+        
         const objRequest = JSON.parse(request.body);
         const userId = objRequest.id
 
         const baseUrl = `https://demo.vnda.com.br/api/v2/users/${userId}`
-        const token ="zPx1jgkmbUb9vouJvSH8XRAF"
-        const myHeaders = new Headers()
-    
-        myHeaders.append("Authorization", "Bearer " + `${token}`);
-        myHeaders.append("Content-Type", "application/json; charset=utf-8");
     
         const configRequest:any = {
             headers: myHeaders,

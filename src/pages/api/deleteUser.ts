@@ -2,7 +2,7 @@ async function deletarUsuario (request:any, response:any) {
     
     const userId:any =  request.body.user
     const baseUrl = `https://demo.vnda.com.br/api/v2/users/${userId}`
-    const token ="zPx1jgkmbUb9vouJvSH8XRAF"
+    const token ="XXXXXXX"  //<------ Token necessario para realizar as operacoes na API de usuarios
 
     const myHeaders = new Headers()
     myHeaders.append("Authorization", "Bearer " + `${token}`);
