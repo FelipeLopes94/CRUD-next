@@ -19,3 +19,8 @@ APIS de consumo do  projeto configuradas dentro da pasta /src/pages/api, ultiliz
 ## Axios
 
 Axios ultilizado nas camadas do front
+
+
+## TOKEN
+
+Necessario uso de Token para efetuar as chamadas, o mesmo se configura nas apis, localizadas no diretorio mencionado acima
