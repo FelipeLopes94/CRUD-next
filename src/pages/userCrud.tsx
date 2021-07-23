@@ -110,9 +110,7 @@ export default function UserCrud() {
       
     })
         .then(resp => {
-            const list:any = getUpdateList(userList)
-            setDataUserForm({ ...initialState.user})
-            setUserList(list)
+          document.location.reload(true);
         })
 
   }
