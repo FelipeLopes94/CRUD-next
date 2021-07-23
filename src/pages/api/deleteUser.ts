@@ -18,9 +18,6 @@ async function deletarUsuario (request:any, response:any) {
     
     const userListResponse =  await fetch(baseUrl,configRequest )    
 
-    // response.json({
-    //     message:"deletado"
-    // })
 }
 
 export default deletarUsuario
