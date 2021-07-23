@@ -135,8 +135,8 @@ export default function UserCrud() {
   // Funcao para atualizar a lista de usuarios, e remover o que nao tem Id
 
   function  getUpdateList(user:any, add = true) {
-
-    const list = userList.filter(u => u.id !== user.id)
+    
+    const list = userList.filter((u:any) => u.id !== user.id)
 
     if (add) list.unshift(user)
 
@@ -162,6 +162,8 @@ export default function UserCrud() {
     const list = getUpdateList(user, false)
     setUserList(list)
     alert("usuario removido com sucesso")
+    window.location.reload();
+
 
 
   }
