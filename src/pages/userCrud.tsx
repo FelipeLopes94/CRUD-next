@@ -37,6 +37,8 @@ const initialState = {
 
 }
 
+
+// FUNCAO PRINCIPAL
 export default function UserCrud() {
 
   // Tipagem dos dados da api

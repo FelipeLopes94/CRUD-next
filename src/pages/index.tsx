@@ -10,7 +10,7 @@ export default function Home() {
       <Head>
         <title>CRUD Next.JS</title>
         <meta name="description" content="CRUD de usuarios em Next.JS" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="./images/crud.png" />
       </Head>
 
       <main >
