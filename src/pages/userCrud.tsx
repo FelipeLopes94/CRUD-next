@@ -30,8 +30,8 @@ const initialState = {
   user: { 
     id: '',
     email: '',
-    first_name: '' ,
-    last_name: '',
+    name: '' ,
+    external_code: '',
     funcao: '',
     tags: '',
   },
@@ -43,19 +43,19 @@ export default function UserCrud() {
   // Tipagem dos dados da api
   interface User {
     email: string;
-    first_name: string;
-    last_name: string;
+    name: string;
+    external_code: string;
     map: any;
     filter: any;
   }
 
-  const baseUrl = "https://demo.vnda.com.br/api/v2/users"
-  const baseUrl2 = "https://reqres.in/api/users?page=2"
-
+  const baseUrl = "/api/userApi"
 
   // Ao montar pagina, fazer a request dos dados da api
   useEffect(() => {
-      axios.get(baseUrl2).then(resp => {
+    
+      axios.get(baseUrl, {
+      }).then(resp => {
         // console.log(resp.data.data)
         const response:any = resp.data.data
         setUserList( response )
@@ -71,8 +71,8 @@ export default function UserCrud() {
         {
             id: '',
             email: '',
-            first_name: '' ,
-            last_name: '',
+            name: '' ,
+            external_code: '',
             funcao: '',
             tags: '',
   
@@ -150,20 +150,20 @@ export default function UserCrud() {
 
                 <Grid item md={6} sm={12}>
                   <TextField                
-                    id="first_name" 
+                    id="name" 
                     label="Nome"
-                    name="first_name"
-                    value={dataUserForm.first_name || ''}
+                    name="name"
+                    value={dataUserForm.name || ''}
                     onChange={getDadosForm}
                   />               
                 </Grid>
 
                 <Grid item md={6} sm={12}>
                   <TextField 
-                   id="last_name"
+                   id="external_code"
                    label="Email" 
                    name="email"
-                   value={dataUserForm.last_name || ''}
+                   value={dataUserForm.external_code || ''}
                    onChange={getDadosForm}
                   />
                 </Grid>
@@ -270,10 +270,10 @@ export default function UserCrud() {
                     <TableRow key={user.id}>
 
                       <TableCell align="center" component="th" scope="user">
-                        {user.avatar}
+                        {user.name}
                       </TableCell>
                       <TableCell align="center">{user.email}</TableCell>
-                      <TableCell align="center">{user.first_name}</TableCell>
+                      <TableCell align="center">{user.external_code}</TableCell>
 
                       <TableCell align="center">
 
