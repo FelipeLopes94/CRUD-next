@@ -1,21 +1,61 @@
-export function saveUser (request:any, response:any) {
+async function saveUser (request:any, response:any) {
     
-    // const myHeaders = new Headers();
-    // myHeaders.append("Authorization", "Bearer zPx1jgkmbUb9vouJvSH8XRAF");
+    if (request.method === 'POST') {
 
-    // var formdata = new FormData();
+        console.log(request.body)
 
-    // const requestOptions:any = {
-    // method: 'DELETE',
-    // headers: myHeaders,
-    // body: formdata,
-    // redirect: 'follow'
-    // };
+        const baseUrl = `https://demo.vnda.com.br/api/v2/users`
+        const token ="zPx1jgkmbUb9vouJvSH8XRAF"
+        const myHeaders = new Headers()
+    
+        myHeaders.append("Authorization", "Bearer " + `${token}`);
+        myHeaders.append("Content-Type", "application/json; charset=utf-8");
+    
+        const configRequest:any = {
+            headers: myHeaders,
+            mode: 'cors',
+            cache: 'default' ,
+            method: "post",
+            body: request.body
+        };
+        
+        await fetch(baseUrl,configRequest )    
+    
+        response.json({
+            message:"Usuario criado com sucesso!"
+        })
+    
 
-    // fetch("https://demo.vnda.com.br/api/v2/users/"+idUsuarioo, requestOptions)
-    // .then(response => response.text())
-    // .then(result => console.log(result))
-    // .catch(error => console.log('error', error));
+      } else  {
+
+        const objRequest = JSON.parse(request.body);
+        const userId = objRequest.id
+
+        console.log(objRequest.id)
+
+        const baseUrl = `https://demo.vnda.com.br/api/v2/users/${userId}`
+        const token ="zPx1jgkmbUb9vouJvSH8XRAF"
+        const myHeaders = new Headers()
+    
+        myHeaders.append("Authorization", "Bearer " + `${token}`);
+        myHeaders.append("Content-Type", "application/json; charset=utf-8");
+    
+        const configRequest:any = {
+            headers: myHeaders,
+            mode: 'cors',
+            cache: 'default' ,
+            method: "patch",
+            body: request.body
+        };
+        
+        await fetch(baseUrl,configRequest )    
+    
+        response.json({
+            message:"Usuario atualizado com sucesso!"
+        })
+      }
+
+
 
 }
 

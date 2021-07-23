@@ -50,14 +50,15 @@ export default function UserCrud() {
     filter: any;
   }
 
-  const baseUrl = "/api/userApi"
+  const apiListusers = "/api/userApi"
   const apiDelteUser = "/api/deleteUser"
+  const apiSaveUser = "/api/saveUser"
 
 
   // Ao montar pagina, fazer a request dos dados da api
   useEffect(() => {
     
-      axios.get(baseUrl, {
+      axios.get(apiListusers, {
       }).then(resp => {
         // console.log(resp.data.data)
         const response:any = resp.data.data
@@ -101,13 +102,20 @@ export default function UserCrud() {
     const user = dataUserForm
     
     const method = user.id ? 'patch' : 'post'
-    const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
-    axios[method](url, user)
+    const url = apiSaveUser
+    
+    axios[method](url, user,{
+
+      data:{userId: user.id},
+      headers: {"Content-Type": "multipart/form-data"}
+      
+    })
         .then(resp => {
             const list:any = getUpdateList(resp.data)
             setDataUserForm({ ...initialState.user})
             setUserList(list)
         })
+    console.log(user.id)
 
   }
 
@@ -130,7 +138,6 @@ export default function UserCrud() {
     axios.delete(`${apiDelteUser}`, {
 
       headers: {'Content-Type': 'application/json'},
-      // data: JSON.stringify({'user': user.id})
       data: {
         user: user.id
       }
@@ -141,15 +148,6 @@ export default function UserCrud() {
     })
     const list = getUpdateList(user, false)
     setUserList(list)
-
-    // deleteUser(user.id)
-
-  //   const response = fetch(baseUrl, {
-  //     method: 'POST',
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: JSON.stringify({user: user})
-  //   })
-  // return response
 
   }
 
