@@ -107,7 +107,9 @@ export default function UserCrud() {
       
     })
       .then(resp => {
-        // window.location.reload();
+        setDataUserForm({ ...initialState.user}) //limpa os campos ao salvar
+        alert("usuario salvo com sucesso")
+        window.location.reload();
         console.log (resp)
         
       })
@@ -143,6 +145,8 @@ export default function UserCrud() {
     })
     const list = getUpdateList(user, false)
     setUserList(list)
+    alert("usuario removido com sucesso")
+
 
   }
   
