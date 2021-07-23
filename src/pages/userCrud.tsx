@@ -1,6 +1,7 @@
 // Imports components
 import React,{useState, useEffect} from 'react';
 import Link from 'next/Link'
+import {deleteUser} from '../routes/_routes';
 import axios from 'axios'
 
 
@@ -50,6 +51,8 @@ export default function UserCrud() {
   }
 
   const baseUrl = "/api/userApi"
+  const apiDelteUser = "/api/deleteUser"
+
 
   // Ao montar pagina, fazer a request dos dados da api
   useEffect(() => {
@@ -58,6 +61,7 @@ export default function UserCrud() {
       }).then(resp => {
         // console.log(resp.data.data)
         const response:any = resp.data.data
+        console.log(response)
         setUserList( response )
 
     })
@@ -73,7 +77,7 @@ export default function UserCrud() {
             email: '',
             name: '' ,
             external_code: '',
-            funcao: '',
+            function: '',
             tags: '',
   
         }
@@ -95,7 +99,8 @@ export default function UserCrud() {
   function saveUser() {
 
     const user = dataUserForm
-    const method = user.id ? 'put' : 'post'
+    
+    const method = user.id ? 'patch' : 'post'
     const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
     axios[method](url, user)
         .then(resp => {
@@ -121,12 +126,34 @@ export default function UserCrud() {
   // Funcao para remover usuario
 
   function removeUser(user:any) {
-    axios.delete(`${baseUrl}/${user.id}`).then(resp => {
+    
+    axios.delete(`${apiDelteUser}`, {
+
+      headers: {'Content-Type': 'application/json'},
+      // data: JSON.stringify({'user': user.id})
+      data: {
+        user: user.id
+      }
+
+    }).then(resp => {
         const list = getUpdateList(user, false)
         setUserList(list)
     })
+    const list = getUpdateList(user, false)
+    setUserList(list)
+
+    // deleteUser(user.id)
+
+  //   const response = fetch(baseUrl, {
+  //     method: 'POST',
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: JSON.stringify({user: user})
+  //   })
+  // return response
+
   }
 
+  
   // Funcao para editar usuario, recebe o parametro da lista, trazendo os dados, e manda do State de dados do form.
 
   function editUser(user:any) {
@@ -160,10 +187,10 @@ export default function UserCrud() {
 
                 <Grid item md={6} sm={12}>
                   <TextField 
-                   id="external_code"
+                   id="email"
                    label="Email" 
                    name="email"
-                   value={dataUserForm.external_code || ''}
+                   value={dataUserForm.email || ''}
                    onChange={getDadosForm}
                   />
                 </Grid>
@@ -172,8 +199,8 @@ export default function UserCrud() {
                   <TextField 
                     id="email" 
                     label="Código externo"
-                    name="codigo_externo"
-                    value={dataUserForm.email || ''}
+                    name="external_code"
+                    value={dataUserForm.external_code || ''}
                     onChange={getDadosForm}
                    />
                 </Grid>
@@ -182,8 +209,8 @@ export default function UserCrud() {
                   <TextField                  
                     id="avatar" 
                     label="Tags" 
-                    name="l"
-                    value={dataUserForm.avatar || ''}
+                    name="tags"
+                    value={dataUserForm.tags || ''}
                     onChange={getDadosForm}                   
                   />
                 </Grid>
@@ -198,8 +225,8 @@ export default function UserCrud() {
                       labelId="select funcao usuario"
                       id="select funcao"
                       onChange={getDadosForm}
-                      name="funcao"
-                      defaultValue={dataUserForm.funcao || 10}
+                      name="function"
+                      defaultValue={dataUserForm.function || 10}
                     >
                       <MenuItem value={10}>Ten</MenuItem>
                       <MenuItem value={20}>Twenty</MenuItem>

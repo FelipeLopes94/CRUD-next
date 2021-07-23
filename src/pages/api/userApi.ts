@@ -1,6 +1,16 @@
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
-async function userApi (request:any, response:any) {
+let idUsuarioo = ''
+
+export const teste = (userId:any) => {
+    const router = useRouter()
+
+    idUsuarioo = userId
+    console.log(router)
+}
+
+async function getlist (request:any, response:any) {
 
     const baseUrl = "https://demo.vnda.com.br/api/v2/users"
     const token ="zPx1jgkmbUb9vouJvSH8XRAF"
@@ -12,14 +22,14 @@ async function userApi (request:any, response:any) {
         headers: myHeaders,
         mode: 'cors',
         cache: 'default' ,
-        // Authorization: token
+        method: "get"
     };
     
-    const userListResponse =  await fetch("https://demo.vnda.com.br/api/v2/users",configRequest )    
+    const userListResponse =  await fetch(baseUrl,configRequest )    
     const userListJson = await userListResponse.json()
     const userList:any = userListJson
 
-    console.log(userList)
+    console.log(idUsuarioo)
 
     response.json({
         data: userList
@@ -28,4 +38,5 @@ async function userApi (request:any, response:any) {
 
 }
 
-export default userApi
+
+export default getlist
