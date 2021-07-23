@@ -1,9 +1,7 @@
 // Imports components
 import React,{useState, useEffect} from 'react';
 import Link from 'next/Link'
-import {deleteUser} from '../routes/_routes';
 import axios from 'axios'
-
 
 // Imports Material UI
 import FormControl from '@material-ui/core/FormControl';
@@ -51,9 +49,8 @@ export default function UserCrud() {
   }
 
   const apiListusers = "/api/userApi"
-  const apiDelteUser = "/api/deleteUser"
+  const apiDeleteUser = "/api/deleteUser"
   const apiCreateOrUpdate = "/api/createOrUpdate"
-
 
   // Ao montar pagina, fazer a request dos dados da api
   useEffect(() => {
@@ -73,6 +70,7 @@ export default function UserCrud() {
 
   // State dos dados do form
   const [dataUserForm, setDataUserForm] = useState<any>(
+
         {
             id: '',
             email: '',
@@ -94,7 +92,6 @@ export default function UserCrud() {
     })
   }
 
-
   // Funcao para Salvar usuario
 
   function saveUser() {
@@ -109,9 +106,11 @@ export default function UserCrud() {
       headers: {"Content-Type": "multipart/form-data"}
       
     })
-        .then(resp => {
-          document.location.reload(true);
-        })
+      .then(resp => {
+        // window.location.reload();
+        console.log (resp)
+        
+      })
 
   }
 
@@ -131,7 +130,7 @@ export default function UserCrud() {
 
   function removeUser(user:any) {
     
-    axios.delete(`${apiDelteUser}`, {
+    axios.delete(`${apiDeleteUser}`, {
 
       headers: {'Content-Type': 'application/json'},
       data: {
@@ -146,7 +145,6 @@ export default function UserCrud() {
     setUserList(list)
 
   }
-
   
   // Funcao para editar usuario, recebe o parametro da lista, trazendo os dados, e manda do State de dados do form.
 
@@ -155,6 +153,7 @@ export default function UserCrud() {
 
   }
 
+  // Retorno HTML da funcao
   return (
 
     <div className="form">
@@ -162,6 +161,8 @@ export default function UserCrud() {
       <div className="wrapper">
 
         <h2>Adicionar novo usuario</h2>
+
+      {/* Formulario CRUD */}
 
         <div className="container-form">
 
@@ -222,9 +223,9 @@ export default function UserCrud() {
                       name="function"
                       defaultValue={dataUserForm.function || 10}
                     >
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      <MenuItem value={"Gestor"}>Gestor</MenuItem>
+                      <MenuItem value={"Agente"}>Agente</MenuItem>
+                      <MenuItem value={"Local"}>Local</MenuItem>
                     </Select>
 
                   </FormControl>
@@ -237,11 +238,14 @@ export default function UserCrud() {
 
         </div>
 
+      {/* Botoes form */}
+
         <div className="container-buttons">
 
           <div className="form-buttons">
 
             <Button 
+
               className="btn-save" 
               variant="contained" 
               color="primary"
