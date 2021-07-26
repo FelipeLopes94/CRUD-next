@@ -33,7 +33,7 @@ async function createOrUpdate (request:any, response:any) {
         const objRequest = JSON.parse(request.body);
         const userId = objRequest.id
 
-        const baseUrl = `https://demo.vnda.com.br/api/v2/users/${userId}`
+        const baseUrl = `xxx`
     
         const configRequest:any = {
             headers: myHeaders,
