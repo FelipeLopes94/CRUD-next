@@ -1,6 +1,6 @@
 async function getlist (request:any, response:any) {
 
-    const baseUrl = "https://demo.vnda.com.br/api/v2/users"
+    const baseUrl = "xxx"
     const token ="XXXXXXX"  //<------ Token necessario para realizar as operacoes na API de usuarios
     const myHeaders = new Headers()
 
