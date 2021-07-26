@@ -10,7 +10,7 @@ async function createOrUpdate (request:any, response:any) {
 
     if (request.method === 'POST') {
 
-        const baseUrl = `https://demo.vnda.com.br/api/v2/users`
+        const baseUrl = `xxxx`
     
         const configRequest:any = {
             headers: myHeaders,
